@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO.Ports;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -15,6 +13,7 @@ namespace Laser
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        private readonly Dispatcher _dispatcher;
         private readonly Image[] _imagesArray;
 
         private readonly ProjectorManager _manager = new();
@@ -28,11 +27,12 @@ namespace Laser
         }
         public IList<string> PortNames => SerialPort.GetPortNames();
 
-        public string StatusString => _manager.Status switch {
+        public string StatusString => _manager.Status switch
+        {
             ProjectorStatus.Disconnected => "Нет подключения",
             ProjectorStatus.Processing => "Обработка",
             ProjectorStatus.Ready => "Готов",
-            _ => throw new ArgumentOutOfRangeException()
+            _ => throw new ArgumentOutOfRangeException(),
         };
 
         public Brush StatusColor => _manager.Status.GetColor();
@@ -56,8 +56,6 @@ namespace Laser
 
         public ICommand StoppedCommand { get; }
         public ICommand PlayingCommand { get; }
-
-        private readonly Dispatcher _dispatcher;
 
         public bool ProjectorDisconnected => !_manager.ProjectorConnected;
 
@@ -111,7 +109,8 @@ namespace Laser
 
         public void Update()
         {
-            _dispatcher.Invoke(() => {
+            _dispatcher.Invoke(() =>
+            {
                 OnPropertyChanged(nameof(SelectedImage));
                 OnPropertyChanged(nameof(ProjectorDisconnected));
                 OnPropertyChanged(nameof(StatusString));
@@ -123,7 +122,6 @@ namespace Laser
                 OnPropertyChanged(nameof(StoppedCommand));
                 OnPropertyChanged(nameof(PlayingCommand));
             });
-
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -131,18 +129,18 @@ namespace Laser
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public record Image(CommandEnum CommandEnumType ,string Text , MainWindowViewModel ViewModel)
+        public void Closed()
+        {
+            if (EnabledProjectorCommand.CanExecute(default)) EnabledProjectorCommand.Execute(CommandEnum.Detach);
+        }
+
+        public record Image(CommandEnum CommandEnumType, string Text, MainWindowViewModel ViewModel)
         {
             public bool IsChecked
             {
                 get => ViewModel.SelectedImage == CommandEnumType;
                 set => ViewModel.SelectedImage = value ? CommandEnumType : default;
             }
-        }
-
-        public void Closed()
-        {
-            if (EnabledProjectorCommand.CanExecute(default)) EnabledProjectorCommand.Execute(CommandEnum.Detach);
         }
     }
 }

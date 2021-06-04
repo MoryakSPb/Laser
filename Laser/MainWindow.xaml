@@ -41,17 +41,16 @@
                 <Image Source="Resources/arrow-up-circle.png" />
             </Button>
 
-            <ComboBox Margin="2" 
+            <ComboBox Margin="2"
                       ItemsSource="{Binding PortNames}"
-                      SelectedItem="{Binding SelectedPort, Mode=TwoWay}" 
+                      SelectedItem="{Binding SelectedPort, Mode=TwoWay}"
                       IsEditable="False"
-                      IsEnabled="{Binding ProjectorDisconnected}"/>
+                      IsEnabled="{Binding ProjectorDisconnected}" />
         </DockPanel>
 
         <DockPanel Grid.Column="1" Grid.Row="0" Dock="Left">
             <Label>Статус:</Label>
-            <Label Content="{Binding StatusString}" Foreground="{Binding StatusColor}" FontWeight="SemiBold">
-            </Label>
+            <Label Content="{Binding StatusString}" Foreground="{Binding StatusColor}" FontWeight="SemiBold" />
         </DockPanel>
 
         <GroupBox Grid.Column="0" Grid.Row="1" Header="Изображения">
@@ -62,8 +61,8 @@
                                      GroupName="ImageType"
                                      Content="{Binding Text}"
                                      Command="{Binding ViewModel.StoppedCommand}"
-                                     CommandParameter="{Binding CommandEnumType}" 
-                                     IsChecked="{Binding IsChecked}"/>
+                                     CommandParameter="{Binding CommandEnumType}"
+                                     IsChecked="{Binding IsChecked}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

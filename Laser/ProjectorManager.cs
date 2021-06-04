@@ -1,22 +1,17 @@
 ﻿using System;
 using System.IO.Ports;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Laser
 {
     public class ProjectorManager
     {
+        private readonly object _executeSyncRoot = new();
         private ProjectorStatus _status = ProjectorStatus.Disconnected;
         public SerialPort Port { get; private set; }
 
         public bool ProjectorConnected { get; set; }
         public bool IsLaserEnabled { get; set; }
         public bool IsImagePlaying { get; set; }
-
-        private readonly object _executeSyncRoot = new ();
 
         public ProjectorStatus Status
         {
@@ -27,9 +22,9 @@ namespace Laser
                 StatusUpdated?.Invoke();
             }
         }
-        public event Action StatusUpdated; 
 
         public CommandEnum SelectedImage { get; set; } = CommandEnum.Image00;
+        public event Action StatusUpdated;
 
         public void SetPort(object parameter)
         {
@@ -50,8 +45,6 @@ namespace Laser
                 Status = ProjectorStatus.Disconnected;
                 throw;
             }
-
-
         }
 
         public void Execute(CommandEnum parameter, Action update)
@@ -60,9 +53,10 @@ namespace Laser
             {
                 Status = ProjectorStatus.Processing;
                 update?.Invoke();
-                byte[] bytes = {
-                                   (byte)parameter
-                               };
+                byte[] bytes =
+                {
+                    (byte)parameter,
+                };
 
                 Port.Write(bytes, 0, bytes.Length);
                 int answer = Port.ReadByte();
@@ -71,6 +65,7 @@ namespace Laser
                     Status = ProjectorStatus.Disconnected;
                     throw new Exception("Некорректный ответ от устройства");
                 }
+
                 switch (parameter)
                 {
                     case >= CommandEnum.Image00 and <= CommandEnum.Image15:
@@ -105,6 +100,7 @@ namespace Laser
                         update?.Invoke();
                         return;
                 }
+
                 Status = ProjectorStatus.Ready;
                 update?.Invoke();
             }
