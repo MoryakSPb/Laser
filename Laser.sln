@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Laser", "Laser\Laser.csproj", "{572D5CBD-7E43-4593-8B5B-C2A06D2BCB88}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{572D5CBD-7E43-4593-8B5B-C2A06D2BCB88}.Debug|x64.ActiveCfg = Debug|x64
+		{572D5CBD-7E43-4593-8B5B-C2A06D2BCB88}.Debug|x64.Build.0 = Debug|x64
+		{572D5CBD-7E43-4593-8B5B-C2A06D2BCB88}.Release|x64.ActiveCfg = Release|x64
+		{572D5CBD-7E43-4593-8B5B-C2A06D2BCB88}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C289EF1-71FC-4877-8424-92420B648DE1}
+	EndGlobalSection
+EndGlobal

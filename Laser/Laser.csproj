@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Platforms>x64</Platforms>
+    <LangVersion>9</LangVersion>
+    <ApplicationIcon>Resources\cast.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\arrow-up-circle.png" />
+    <None Remove="Resources\chevron-down.png" />
+    <None Remove="Resources\chevron-left.png" />
+    <None Remove="Resources\chevron-right.png" />
+    <None Remove="Resources\chevron-up.png" />
+    <None Remove="Resources\pause.png" />
+    <None Remove="Resources\play.png" />
+    <None Remove="Resources\x-circle.png" />
+    <None Remove="Resources\zap-off.png" />
+    <None Remove="Resources\zap.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="5.0.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Resource Include="Resources\arrow-up-circle.png" />
+    <Resource Include="Resources\chevron-down.png" />
+    <Resource Include="Resources\chevron-left.png" />
+    <Resource Include="Resources\chevron-right.png" />
+    <Resource Include="Resources\chevron-up.png" />
+    <Resource Include="Resources\pause.png" />
+    <Resource Include="Resources\play.png" />
+    <Resource Include="Resources\x-circle.png" />
+    <Resource Include="Resources\zap-off.png" />
+    <Resource Include="Resources\zap.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

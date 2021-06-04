@@ -1,0 +1,132 @@
+﻿<Window x:Class="Laser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:laser="clr-namespace:Laser"
+        mc:Ignorable="d"
+        Title="Лазер"
+        Height="225" MinHeight="255"
+        Width="400" MinWidth="400"
+        ResizeMode="CanMinimize"
+        d:DataContext="{d:DesignInstance laser:MainWindowViewModel}">
+
+    <Window.DataContext>
+        <laser:MainWindowViewModel x:Name="ViewModel" />
+    </Window.DataContext>
+
+    <Grid Margin="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Column="0" Grid.Row="0">
+            <Label Margin="2">Порт:</Label>
+            <Button Margin="2"
+                    DockPanel.Dock="Right"
+                    Command="{Binding EnabledProjectorCommand}"
+                    CommandParameter="{x:Static laser:CommandEnum.Detach}"
+                    ToolTip="Разорвать соеденение">
+                <Image Source="Resources/x-circle.png" />
+            </Button>
+            <Button Margin="2"
+                    DockPanel.Dock="Right"
+                    Command="{Binding DisabledProjectorCommand}"
+                    CommandParameter="{x:Static laser:CommandEnum.Init}"
+                    ToolTip="Установить соеденение">
+                <Image Source="Resources/arrow-up-circle.png" />
+            </Button>
+
+            <ComboBox Margin="2" 
+                      ItemsSource="{Binding PortNames}"
+                      SelectedItem="{Binding SelectedPort, Mode=TwoWay}" 
+                      IsEditable="False"
+                      IsEnabled="{Binding ProjectorDisconnected}"/>
+        </DockPanel>
+
+        <DockPanel Grid.Column="1" Grid.Row="0" Dock="Left">
+            <Label>Статус:</Label>
+            <Label Content="{Binding StatusString}" Foreground="{Binding StatusColor}" FontWeight="SemiBold">
+            </Label>
+        </DockPanel>
+
+        <GroupBox Grid.Column="0" Grid.Row="1" Header="Изображения">
+            <ItemsControl ItemsSource="{Binding Images}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Margin="2"
+                                     GroupName="ImageType"
+                                     Content="{Binding Text}"
+                                     Command="{Binding ViewModel.StoppedCommand}"
+                                     CommandParameter="{Binding CommandEnumType}" 
+                                     IsChecked="{Binding IsChecked}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
+
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="Управление" VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Height="28">
+                    <Button Margin="2"
+                            Command="{Binding StoppedCommand}"
+                            CommandParameter="{x:Static laser:CommandEnum.MoveUp}"
+                            ToolTip="Калибровка вверх">
+                        <Image Source="Resources/chevron-up.png" />
+                    </Button>
+                    <Button Margin="2"
+                            Command="{Binding StoppedCommand}"
+                            CommandParameter="{x:Static laser:CommandEnum.MoveDown}"
+                            ToolTip="Калибровка вниз">
+                        <Image Source="Resources/chevron-down.png" />
+                    </Button>
+                    <Button Margin="2"
+                            Command="{Binding StoppedCommand}"
+                            CommandParameter="{x:Static laser:CommandEnum.MoveLeft}"
+                            ToolTip="Калибровка влево">
+                        <Image Source="Resources/chevron-left.png" />
+                    </Button>
+                    <Button Margin="2"
+                            Command="{Binding StoppedCommand}"
+                            CommandParameter="{x:Static laser:CommandEnum.MoveRight}"
+                            ToolTip="Калибровка вправо">
+                        <Image Source="Resources/chevron-right.png" />
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Height="28">
+                    <Button Margin="2"
+                            Command="{Binding DisabledLaserCommand}"
+                            CommandParameter="{x:Static laser:CommandEnum.LaserOn}"
+                            ToolTip="Включить лазер">
+                        <Image Source="Resources/zap.png" />
+                    </Button>
+                    <Button Margin="2"
+                            Command="{Binding EnabledLaserCommand}"
+                            CommandParameter="{x:Static laser:CommandEnum.LaserOff}"
+                            ToolTip="Выключить лазер">
+                        <Image Source="Resources/zap-off.png" />
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Height="28">
+                    <Button Margin="2"
+                            Command="{Binding StoppedCommand}"
+                            CommandParameter="{x:Static laser:CommandEnum.ExecStart}"
+                            ToolTip="Начать показ">
+                        <Image Source="Resources/play.png" />
+                    </Button>
+                    <Button Margin="2"
+                            Command="{Binding PlayingCommand}"
+                            CommandParameter="{x:Static laser:CommandEnum.ExecStop}"
+                            ToolTip="Завершить показ">
+                        <Image Source="Resources/pause.png" />
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+        </GroupBox>
+    </Grid>
+</Window>
